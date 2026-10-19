@@ -4,20 +4,6 @@ Aplicación web interactiva desarrollada con **Python**, utilizando **Flet** par
 
 Permite explorar videojuegos disponibles en plataformas como **Steam** y **Epic Games**, filtrar por tienda o buscar por nombre, y al hacer clic en cualquier videojuego, redirige de forma automática a la página oficial de la tienda.
 
----
-
-## 📋 Cumplimiento de Rúbricas de Evaluación
-
-| Criterio | Puntos | Implementación en este proyecto |
-| :--- | :--- | :--- |
-| **Estructura orientada a objetos** | **0.50 / 0.50** | Arquitectura modular con clases: `Game` (modelo de datos y serialización), `GameCatalog` (patrón repositorio/gestión de catálogo), `GameCard` (componente visual interactivo heredado de `ft.Container`), y `GameApp` (controlador de la interfaz Flet). |
-| **Funcionalidad de la interfaz gráfica (Flet)** | **0.50 / 0.50** | Interfaz web intuitiva en tema oscuro (*dark mode*), con diseño en cuadrícula responsiva, buscador en tiempo real, pestañas de filtrado (*Todos, Steam, Epic Games*) y apertura de enlaces externos (`page.launch_url`). |
-| **Entorno virtual y dependencias** | **0.40 / 0.40** | Entorno virtual documentado y reproducible con soporte tanto para `uv` (`pyproject.toml`) como para entornos tradicionales `venv` mediante `requirements.txt`. |
-| **Calidad del código y buenas prácticas** | **0.30 / 0.30** | Código limpio siguiendo el estándar **PEP 8**, modularizado por responsabilidades (modelos, backend, frontend), con tipado estático (*Type Hints*) en todas las funciones. |
-| **Documentación y comentarios** | **0.30 / 0.30** | Módulos, clases y métodos documentados con *docstrings* explicativos y comentarios en puntos clave de la lógica. |
-| **TOTAL** | **2.00 / 2.00** | **Excelente (100%)** |
-
----
 
 ## 📁 Estructura del Proyecto
 
