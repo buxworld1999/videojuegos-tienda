@@ -15,6 +15,7 @@ if str(src_path) not in sys.path:
 
 from pagina_cideo_juego_web.backend.app import run_backend
 from pagina_cideo_juego_web.frontend.app import main as flet_main
+from pagina_cideo_juego_web.config import config
 
 
 def start_flask_service() -> None:
@@ -38,6 +39,13 @@ def launch_browser() -> None:
 
 def main() -> None:
     """Función principal que orquesta el backend y levanta la interfaz en el navegador web."""
+    print("\n====================================================")
+    print("       PROYECTO EVALUACIÓN - VIDEOJUEGOS TIENDA     ")
+    print("====================================================")
+    print(f" * Usuario Asignado    : {config.username}")
+    print(f" * API Key (Protegida) : {config.masked_key}")
+    print(f" * URL Base API        : {config.base_url}")
+    print(f" * Endpoint Evaluación : {config.endpoint}")
     print("====================================================")
     print("Iniciando Servidor Flask (API REST) en http://127.0.0.1:5000")
     print("====================================================")

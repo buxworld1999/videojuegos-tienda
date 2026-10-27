@@ -51,6 +51,8 @@ pydantic==2.14.1
     # via fastapi
 pydantic-core==2.50.1
     # via pydantic
+python-dotenv==1.2.4
+    # via pagina-cideo-juego-web (pyproject.toml)
 repath==0.9.0
     # via flet
 requests==2.34.2

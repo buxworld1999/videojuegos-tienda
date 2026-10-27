@@ -14,7 +14,7 @@ import flet as ft
 import requests
 
 from pagina_cideo_juego_web.models.game import Game
-from pagina_cideo_juego_web.frontend.components import GameCard
+from pagina_cideo_juego_web.frontend.components import GameCard, ApiEvaluationCard
 
 
 class GameApp:
@@ -147,6 +147,12 @@ class GameApp:
             margin=ft.Margin(bottom=20),
         )
 
+        # 1.5. Tarjeta de control y estado de la Evaluación de la API
+        self.api_card = ApiEvaluationCard(
+            api_url=self.api_url,
+            on_refresh_callback=self.update_game_display,
+        )
+
         # 2. Barra de búsqueda
         search_field = ft.TextField(
             hint_text="Buscar videojuego por nombre...",
@@ -173,6 +179,7 @@ class GameApp:
         # 4. Agregar todo a la página
         self.page.add(
             header,
+            self.api_card,
             search_and_filter_bar,
             ft.Divider(color="#1e293b", height=30),
             self.games_grid,

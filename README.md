@@ -4,36 +4,31 @@ Aplicación web interactiva desarrollada con **Python**, utilizando **Flet** par
 
 Permite explorar videojuegos disponibles en plataformas como **Steam** y **Epic Games**, filtrar por tienda o buscar por nombre, y al hacer clic en cualquier videojuego, redirige de forma automática a la página oficial de la tienda.
 
+---
 
-## 📁 Estructura del Proyecto
+## 📋 Módulo de Evaluación - Conexión con API Externa REST
 
-```text
-pagina-cideo-juego-web/
-│
-├── .venv/                              # Entorno virtual aislado
-├── pyproject.toml                      # Metadatos del proyecto y dependencias modernas (uv)
-├── requirements.txt                    # Dependencias congeladas para pip
-├── README.md                           # Documentación completa del proyecto
-│
-└── src/
-    └── pagina_cideo_juego_web/
-        ├── __init__.py                 # Exportador del paquete y script de inicio
-        ├── main.py                     # Orquestador: Inicia Flask en segundo plano y lanza Flet Web
-        │
-        ├── models/                     # [POO] Capa de Modelos de Datos
-        │   ├── __init__.py
-        │   └── game.py                 # Clase Game con serialización to_dict / from_dict
-        │
-        ├── backend/                    # [Flask] Capa de Servicios y API REST
-        │   ├── __init__.py
-        │   ├── steam_service.py        # Clase SteamService (Consumo directo de la API pública de Steam)
-        │   ├── data.py                 # Clase GameCatalog (Gestor híbrido Steam API + Epic Games)
-        │   └── app.py                  # Servidor Flask con endpoints /api/games y /api/platforms
-        │
-        └── frontend/                   # [Flet] Capa de Interfaz Gráfica
-            ├── __init__.py
-            ├── components.py           # Clase GameCard (Componente visual interactivo)
-            └── app.py                  # Clase GameApp (Vista principal, buscador y cuadrícula)
+Para la evaluación académica, el sistema se conecta a la API de Render bajo las siguientes especificaciones:
+
+* **Usuario asignado:** `buxworld`
+* **API Key protegida:** Cargada de forma segura desde el archivo `.env` (`X-API-Key`). Ignorada en `.gitignore` para máxima seguridad.
+* **API Base URL:** `https://progra-2-krw5.onrender.com`
+* **Endpoint asignado:** `https://progra-2-krw5.onrender.com/api/v1/samuel/games`
+* **Documentación oficial Swagger:** [Docs Endpoint Samuel](https://progra-2-krw5.onrender.com/docs#/Evaluación%20-%20Samuel%20(Videojuegos%20Tienda)/get_samuel_games_endpoint_api_v1_samuel_games_get)
+* **Almacenamiento en RAM:** Los datos obtenidos desde el endpoint se almacenan en la memoria RAM del sistema (`RamStorage`) y se renderizan tanto en la consola/terminal como en la interfaz gráfica Flet.
+* **Manejo de Excepciones y Códigos de Estatus HTTP:**
+  * `200`: Éxito - Catálogo recibido y almacenado en la memoria RAM.
+  * `401`: Unauthorized - Falta de cabecera `X-API-Key`.
+  * `403`: Forbidden - API Key inválida o no autorizada para el namespace.
+  * `404`: Not Found - Namespace o endpoint no existente.
+  * `405`: Method Not Allowed - Uso de métodos HTTP no permitidos (ej. POST).
+  * `500` / `503` / `504`: Manejo de errores internos y pérdida de conexión / timeouts.
+
+### 🧪 Demostración Rápida de la Evaluación (Script de Pruebas)
+Para ejecutar la prueba automática que valida la conexión, el almacenamiento en RAM, la impresión en pantalla y todos los códigos de estatus (200, 401, 403, 404, 405):
+
+```powershell
+uv run python probar_api.py
 ```
 
 ---
@@ -58,7 +53,7 @@ pagina-cideo-juego-web/
    uv sync
    ```
 
-3. **Ejecutar la aplicación:**
+3. **Ejecutar la aplicación completa (Backend Flask + Frontend Web Flet):**
    ```powershell
    uv run pagina-cideo-juego-web
    ```
@@ -86,12 +81,27 @@ pagina-cideo-juego-web/
 
 ---
 
-## 🌐 Endpoints de la API REST (Flask)
+## 🔒 Configuración de Variables de Entorno (`.env`)
+
+El archivo `.env` en la raíz contiene las credenciales protegidas:
+
+```env
+API_USERNAME=buxworld
+API_KEY=sk_live_sam_5a19d08e42b74c3eb918a72c
+API_BASE_URL=https://progra-2-krw5.onrender.com
+API_ENDPOINT=/api/v1/samuel/games
+API_DOCS_URL=https://progra-2-krw5.onrender.com/docs#/Evaluación%20-%20Samuel%20(Videojuegos%20Tienda)/get_samuel_games_endpoint_api_v1_samuel_games_get
+```
+
+---
+
+## 🌐 Endpoints de la API REST Local (Flask)
 
 Al iniciar el proyecto, el servidor Flask se levanta en `http://127.0.0.1:5000`:
 
-* `GET /api/games`: Retorna la lista de todos los juegos en formato JSON.
-  * *Parámetro opcional `platform`:* `/api/games?platform=Steam` o `/api/games?platform=Epic Games`.
-  * *Parámetro opcional `search`:* `/api/games?search=Cyberpunk`.
-* `GET /api/games/<id>`: Retorna los datos detallados de un videojuego por su identificador.
-* `GET /api/platforms`: Retorna la lista de plataformas disponibles (`["Todos", "Steam", "Epic Games"]`).
+* `GET /api/games`: Retorna la lista de todos los juegos almacenados en la RAM.
+* `GET /api/games/<id>`: Retorna los datos detallados de un videojuego por su ID.
+* `GET /api/platforms`: Retorna las plataformas disponibles (`["Todos", "Steam", "Epic Games"]`).
+* `GET /api/evaluacion/status`: Inspecciona el estado de la conexión, código de estatus y datos en RAM.
+* `POST /api/evaluacion/recargar`: Fuerza la recarga desde la API externa a la memoria RAM.
+* `GET /api/evaluacion/probar/<codigo>`: Demuestra la respuesta para los códigos `200`, `401`, `403`, `404`, `405`.
